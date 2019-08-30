@@ -25,10 +25,20 @@ section, summary, time, mark, audio {
 	font: inherit;
 	vertical-align: baseline;}
 
-	video, iframe, img {
+	video, img {
 		width: 100%;
 		height: auto;
 	}
+
+	.fun_vid iframe {
+		width: 100%;
+		height: 500px;
+	}
+
+.index_vid iframe {
+	width: 100%;
+	height: 300px;
+}
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
