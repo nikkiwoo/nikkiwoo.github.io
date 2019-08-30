@@ -11,8 +11,6 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-		<script src="https://cdn.rawgit.com/skipser/youtube-autoresize/master/youtube-autoresizer.js"></script>
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
@@ -86,10 +84,13 @@
 										<h2>the plane<br />
 										ride</h2>
 									</header>
-
-									<iframe src="https://www.youtube.com/embed/UV4u3DnYl3c"
-										frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope;
-												       picture-in-picture" allowfullscreen></iframe>
+									<div class="auto-resizable-iframe">
+  									<div>
+												<iframe src="https://www.youtube.com/embed/UV4u3DnYl3c"
+													frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope;
+								 				picture-in-picture" allowfullscreen></iframe>
+  									</div>
+									</div>
 
 									<p>As a fellow of the <a href="http://games.ucla.edu/">UCLA Game Lab</a>,
 									I developed a 2D pixel survival game known as "fly the friendly sky"- inspired by the
