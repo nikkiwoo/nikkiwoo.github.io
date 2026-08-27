@@ -80,6 +80,14 @@ section, summary, time, mark, audio {
   display: table;
 }
 
+/* Centered text. Needed because the global `p { text-align: justify }` rule
+   below matches these paragraphs directly, which beats the centering they
+   would otherwise inherit from a parent. */
+.caption,
+.text-center {
+  text-align: center;
+}
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
