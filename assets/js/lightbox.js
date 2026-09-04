@@ -119,11 +119,6 @@
 
 	function close() {
 
-		// Let the page carousel follow along to wherever we ended up.
-			document.dispatchEvent(new CustomEvent('lightbox:close', {
-				detail: { image: active.images[current] }
-			}));
-
 		lightbox.classList.remove('is-visible');
 		document.body.classList.remove('is-lightbox-open');
 
