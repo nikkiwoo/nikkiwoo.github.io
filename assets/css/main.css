@@ -4714,3 +4714,294 @@ input, select, textarea {
 		}
 
 	}
+
+/* ============================================================
+   Photo grid — responsive
+   The .column / .two_column grids above are floated at fixed
+   percentages. On phones that leaves each photo a few hundred
+   pixels wide, so below the "small" breakpoint we drop to a
+   single photo per row.
+   ============================================================ */
+
+@media screen and (max-width: 736px) {
+
+	/* Massively's grid pulls .row left by one gutter width, expecting a
+	   matching padding-left on its children to cancel it out. The columns
+	   below drop that padding so a stacked photo can span the full width,
+	   so the negative margin has to go too — otherwise the whole grid sits
+	   a gutter to the left and the photos aren't centred in the post. */
+	#main .row {
+		margin-left: 0;
+	}
+
+	.column,
+	.two_column {
+		float: none;
+		width: 100%;
+		padding: 5px 0;
+	}
+
+	/* The staggered offsets on the intro grid only make sense when the
+	   photos sit side by side. */
+	.column > .spacer {
+		display: none;
+	}
+
+}
+
+/* ============================================================
+   Lightbox
+   Photos inside a .row become clickable; clicking one opens it
+   full-screen. Progressive enhancement: without JS the images
+   still render exactly as before.
+   ============================================================ */
+
+.row img.lightbox-trigger {
+	cursor: zoom-in;
+}
+
+#lightbox {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 10000;
+	background: rgba(19, 21, 25, 0.97);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.25s ease, visibility 0.25s;
+	-webkit-tap-highlight-color: transparent;
+}
+
+	/* Beats the `display: flex` above, which would otherwise defeat
+	   the [hidden] attribute the script toggles. */
+	#lightbox[hidden] {
+		display: none;
+	}
+
+	#lightbox.is-visible {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	#lightbox .lightbox-figure {
+		margin: 0;
+		max-width: 100%;
+		max-height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 3rem 4.5rem;
+		box-sizing: border-box;
+		pointer-events: none;
+	}
+
+	#lightbox img {
+		width: auto;
+		max-width: 100%;
+		max-height: calc(100vh - 8rem);
+		object-fit: contain;
+		box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.5);
+		pointer-events: auto;
+	}
+
+	/* The reset near the top of this file sets `figcaption { display: block }`,
+	   and an author rule beats the browser's own `[hidden]` rule — so the
+	   attribute needs saying explicitly here. */
+	#lightbox .lightbox-caption[hidden] {
+		display: none;
+	}
+
+	#lightbox .lightbox-caption {
+		color: rgba(255, 255, 255, 0.75);
+		font-size: 0.7rem;
+		letter-spacing: 0.15rem;
+		text-transform: uppercase;
+		text-align: center;
+		margin-top: 1rem;
+		max-width: 40rem;
+	}
+
+	#lightbox button {
+		position: absolute;
+		background: none;
+		border: 0;
+		box-shadow: none;
+		padding: 0;
+		color: #fff !important;
+		opacity: 0.65;
+		cursor: pointer;
+		line-height: 1;
+		height: auto;
+		transition: opacity 0.15s ease;
+	}
+
+		#lightbox button:hover,
+		#lightbox button:focus {
+			opacity: 1;
+			background: none;
+			color: #fff !important;
+		}
+
+		#lightbox button:before {
+			font-family: FontAwesome;
+			font-style: normal;
+			font-weight: normal;
+			text-transform: none !important;
+		}
+
+	#lightbox .lightbox-close {
+		top: 1rem;
+		right: 1.25rem;
+		font-size: 2rem;
+	}
+
+		#lightbox .lightbox-close:before {
+			content: '\f00d';
+		}
+
+	#lightbox .lightbox-prev,
+	#lightbox .lightbox-next {
+		top: 50%;
+		transform: translateY(-50%);
+		font-size: 2.5rem;
+		padding: 1rem;
+	}
+
+	#lightbox .lightbox-prev {
+		left: 0.25rem;
+	}
+
+		#lightbox .lightbox-prev:before {
+			content: '\f104';
+		}
+
+	#lightbox .lightbox-next {
+		right: 0.25rem;
+	}
+
+		#lightbox .lightbox-next:before {
+			content: '\f105';
+		}
+
+	#lightbox .lightbox-counter {
+		position: absolute;
+		bottom: 1rem;
+		left: 0;
+		width: 100%;
+		text-align: center;
+		color: rgba(255, 255, 255, 0.5);
+		font-size: 0.6rem;
+		letter-spacing: 0.2rem;
+	}
+
+@media screen and (max-width: 736px) {
+
+	#lightbox .lightbox-figure {
+		padding: 3.5rem 0.5rem;
+	}
+
+	#lightbox img {
+		max-height: calc(100vh - 9rem);
+	}
+
+	#lightbox .lightbox-prev,
+	#lightbox .lightbox-next {
+		font-size: 2rem;
+		top: auto;
+		bottom: 1.5rem;
+		transform: none;
+	}
+
+	#lightbox .lightbox-counter {
+		bottom: 2.4rem;
+	}
+
+}
+
+body.is-lightbox-open {
+	overflow: hidden;
+}
+
+/* ============================================================
+   Section carousel
+   carousel.js inserts these controls and shows them only once the
+   grid has collapsed to one photo per row.
+   ============================================================ */
+
+/* Off by default — the media query at the bottom of this block turns the
+   carousel on. Doing it this way rather than from a resize listener means
+   the breakpoint can never be missed. */
+.carousel-controls {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	margin: 0.25rem 0 0.5rem 0;
+}
+
+	.carousel-controls button {
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		appearance: none;
+		background: none;
+		border: 0;
+		/* Massively gives every button a 2px inset ring, a 3rem box and
+		   `color: #212931 !important` — all of it has to be undone here. */
+		box-shadow: none !important;
+		color: #212931 !important;
+		cursor: pointer;
+		font-size: 1.5rem;
+		height: 2.5rem;
+		line-height: 2.5rem;
+		padding: 0 1.5rem;
+	}
+
+		.carousel-controls button:hover,
+		.carousel-controls button:focus {
+			background: none;
+			color: #18bfef !important;
+		}
+
+		.carousel-controls button:before {
+			font-family: FontAwesome;
+			font-style: normal;
+			font-weight: normal;
+			text-transform: none !important;
+		}
+
+		.carousel-controls .carousel-prev:before {
+			content: '\f104';
+		}
+
+		.carousel-controls .carousel-next:before {
+			content: '\f105';
+		}
+
+	.carousel-controls .carousel-counter {
+		color: rgba(33, 41, 49, 0.5);
+		font-size: 0.6rem;
+		letter-spacing: 0.2rem;
+		min-width: 4rem;
+		text-align: center;
+	}
+
+/* carousel.js keeps `is-carousel-hidden` on every photo but the current one
+   at all widths; it only bites inside this breakpoint, so the full grid
+   comes back on wider screens with nothing to undo. */
+@media screen and (max-width: 736px) {
+
+	.carousel-controls {
+		display: flex;
+	}
+
+	.column.is-carousel-hidden,
+	.two_column.is-carousel-hidden {
+		display: none;
+	}
+
+}
